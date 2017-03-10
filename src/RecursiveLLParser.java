@@ -268,7 +268,7 @@ public class RecursiveLLParser {
 		System.out.println("Exiting RHS...");
 	}
 
-	
+
 	public static void terminal() {
 		System.out.println("Entering Terminal...");
 		if (nextToken == APOST) {
