@@ -14,6 +14,7 @@ public class RecursiveLLParser {
 	Arrays.asList('[', ']', '{', '}', '(', ')', '<', '>', '\'', '"', '=', '|', '.', ',', ';'));
 	public static char nextChar;
 	public static int nextToken;
+	public static Scanner scan;
 
 	/* Character classes */
 	public final static int LETTER = 0;
@@ -43,17 +44,13 @@ public class RecursiveLLParser {
 	public final static int CHARACTER = 21;
 	public final static int RIGHT_ARROW = 23;
 
-	public static void main(String[] args) {
+    public void getEBNFStatement(){
+        scan = new Scanner( System.in );
+        System.out.print("Enter an EBNF Statement : ");
+        input = scan.nextLine();
+    }
 
-		Scanner scan = new Scanner(System.in);
-		System.out.print("Enter an EBNF Statement : ");
-		input = scan.nextLine();
-		getChar();
-		grammar();
-		scan.close();
-	}
-
-	private static int lookup(char ch) {
+	public static int lookup(char ch) {
 		switch (ch) {
 		case '[':
 			addChar();
@@ -148,13 +145,13 @@ public class RecursiveLLParser {
 		return nextToken;
 	}
 
-	private static void addChar() {
+	public static void addChar() {
 		if (lexeme.length() <= 98) {
 			lexeme += nextChar;
 		} else System.out.println("Error - lexeme is too long \n");
 	}
 
-	private static void getChar() {
+	public static void getChar() {
 		if (input.length() > index) {
 			nextChar = input.charAt(index++);
 			if (Character.isAlphabetic(nextChar)) charClass = LETTER;
@@ -165,12 +162,12 @@ public class RecursiveLLParser {
 		} else charClass = EOF;
 	}
 
-	private static void getNonBlank() {
+	public static void getNonBlank() {
 		while (Character.isWhitespace(nextChar))
 		getChar();
 	}
 
-	private static int lex() {
+	public static int lex() {
 		lexeme = "";
 		getNonBlank();
 		switch (charClass) {
@@ -218,7 +215,7 @@ public class RecursiveLLParser {
 
 	}
 
-	private static void grammar() {
+	public static void grammar() {
 		System.out.println("Entering grammar...");
 
 		do {
@@ -227,9 +224,10 @@ public class RecursiveLLParser {
 		} while ( nextToken == SEMICOLON );
 
 		System.out.println("Exiting grammar...");
+		scan.close();
 	}
 
-	private static void rule() {
+	public static void rule() {
 		System.out.println("Entering rule...");
 		lhs();
 		if (nextToken == RIGHT_ARROW) {
@@ -240,7 +238,7 @@ public class RecursiveLLParser {
 		System.out.println("Exiting rule...");
 	}
 
-	private static void rhs() {
+	public static void rhs() {
 		System.out.println("Entering RHS...");
 		if (nextToken == IDENT) lex();
 		else if (nextToken == LEFT_BRACK) {
@@ -268,7 +266,7 @@ public class RecursiveLLParser {
 		System.out.println("Exiting RHS...");
 	}
 
-	private static void terminal() {
+	public static void terminal() {
 		System.out.println("Entering Terminal...");
 		if (nextToken == APOST) {
 			lex();
@@ -292,7 +290,7 @@ public class RecursiveLLParser {
 		System.out.println("Exiting Terminal...");
 	}
 
-	private static void lhs() {
+	public static void lhs() {
 		System.out.println("Entering LHS...");
 		if (nextToken == IDENT) lex();
 		else System.out.println("LHS Error: Expecting Identifier");
