@@ -144,13 +144,13 @@ public class RecursiveLLParser {
 		}
 		return nextToken;
 	}
-
+    // Check lexeme length.
 	public static void addChar() {
 		if (lexeme.length() <= 98) {
 			lexeme += nextChar;
 		} else System.out.println("Error - lexeme is too long \n");
 	}
-
+    // Determines the type of the input.
 	public static void getChar() {
 		if (input.length() > index) {
 			nextChar = input.charAt(index++);
@@ -161,12 +161,12 @@ public class RecursiveLLParser {
 			else charClass = UNKNOWN;
 		} else charClass = EOF;
 	}
-
+    // If next character is Whitespace get next char.
 	public static void getNonBlank() {
 		while (Character.isWhitespace(nextChar))
 		getChar();
 	}
-
+    // Process a lexeme.
 	public static int lex() {
 		lexeme = "";
 		getNonBlank();
@@ -215,20 +215,22 @@ public class RecursiveLLParser {
 
 	}
 
+    // Process grammar for the lexeme.
 	public static void grammar() {
-		System.out.println("Entering grammar...");
+		System.out.println("\nEntering grammar...");
 
 		do {
 			lex();
 			rule();
 		} while ( nextToken == SEMICOLON );
 
-		System.out.println("Exiting grammar...");
+		System.out.println("\nExiting grammar...");
 		scan.close();
 	}
 
+	// Apply rules.
 	public static void rule() {
-		System.out.println("Entering rule...");
+		System.out.println("\nEntering rule...");
 		lhs();
 		if (nextToken == RIGHT_ARROW) {
 			lex();
@@ -257,7 +259,7 @@ public class RecursiveLLParser {
 			lex();
 			rhs();
 			if (nextToken == RIGHT_PAREN) lex();
-			else System.out.println("RHS ERROR: Missing Right Parantheses.");
+			else System.out.println("RHS ERROR: Missing Right Parenthesis.");
 		}
 		if (nextToken == OR_SYMBOL) {
 			lex();
@@ -266,6 +268,7 @@ public class RecursiveLLParser {
 		System.out.println("Exiting RHS...");
 	}
 
+	
 	public static void terminal() {
 		System.out.println("Entering Terminal...");
 		if (nextToken == APOST) {
