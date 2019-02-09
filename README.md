@@ -1,4 +1,4 @@
-#Recursive-LL-Parser
+# Recursive-LL-Parser
 
 This is a simple LL parser that takes an Extended BNF and recursively analyzes it from left to right.
 
